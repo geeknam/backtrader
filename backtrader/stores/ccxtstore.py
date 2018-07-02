@@ -106,7 +106,7 @@ class CCXTStore(object):
     @retry
     def create_order(self, symbol, order_type, side, amount, price, params):
         return self.exchange.create_order(symbol=symbol, type=order_type, side=side,
-                                          amount=amount, price=price, params=params)
+                                          amount=amount, price=price)
 
     @retry
     def cancel_order(self, order_id):
