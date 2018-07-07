@@ -25,6 +25,7 @@ from backtrader import BrokerBase, OrderBase, Order
 from backtrader.utils.py3 import queue
 from backtrader.stores.ccxtstore import CCXTStore
 
+
 class CCXTOrder(OrderBase):
     def __init__(self, owner, data, ccxt_order):
         self.owner = owner
@@ -34,6 +35,7 @@ class CCXTOrder(OrderBase):
         self.size = float(ccxt_order['amount'])
 
         super(CCXTOrder, self).__init__()
+
 
 class CCXTBroker(BrokerBase):
     '''Broker implementation for CCXT cryptocurrency trading library.
@@ -83,8 +85,10 @@ class CCXTBroker(BrokerBase):
 
     def _submit(self, owner, data, exectype, side, amount, price, params):
         order_type = self.order_types.get(exectype)
-        _order = self.store.create_order(symbol=data.symbol, order_type=order_type, side=side,
-                                         amount=amount, price=price, params=params)
+        _order = self.store.create_order(
+            symbol=data.symbol, order_type=order_type, side=side,
+            amount=amount, price=price, params=params
+        )
         order = CCXTOrder(owner, data, _order)
         self.notify(order)
         return order
@@ -104,5 +108,5 @@ class CCXTBroker(BrokerBase):
     def cancel(self, order):
         return self.store.cancel_order(order['id'])
 
-    def get_orders_open(self, safe=False):
-        return self.store.fetch_open_orders()
+    def get_orders_open(self, symbol):
+        return self.store.fetch_open_orders(symbol=symbol)

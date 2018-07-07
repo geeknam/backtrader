@@ -105,12 +105,14 @@ class CCXTStore(object):
 
     @retry
     def create_order(self, symbol, order_type, side, amount, price, params):
-        return self.exchange.create_order(symbol=symbol, type=order_type, side=side,
-                                          amount=amount, price=price)
+        return self.exchange.create_order(
+            symbol=symbol, type=order_type, side=side,
+            amount=amount, price=price
+        )
 
     @retry
-    def cancel_order(self, order_id):
-        return self.exchange.cancel_order(order_id)
+    def cancel_order(self, order_id, symbol):
+        return self.exchange.cancel_order(order_id, symbol)
 
     @retry
     def fetch_trades(self, symbol):
@@ -118,8 +120,10 @@ class CCXTStore(object):
 
     @retry
     def fetch_ohlcv(self, symbol, timeframe, since, limit):
-        return self.exchange.fetch_ohlcv(symbol, timeframe=timeframe, since=since, limit=limit)
+        return self.exchange.fetch_ohlcv(
+            symbol, timeframe=timeframe, since=since, limit=limit
+        )
 
     @retry
-    def fetch_open_orders(self):
-        return self.exchange.fetchOpenOrders()
+    def fetch_open_orders(self, symbol):
+        return self.exchange.fetch_open_orders(symbol=symbol)
